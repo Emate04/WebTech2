@@ -1,0 +1,94 @@
+<div class="form-container">
+  <mat-toolbar class="main-toolbar">
+    <div class="toolbar-left">
+      <button mat-icon-button routerLink="/products">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <mat-icon class="toolbar-icon">inventory_2</mat-icon>
+      <span class="toolbar-title">{{ isEditMode ? 'Termék szerkesztése' : 'Új termék' }}</span>
+    </div>
+  </mat-toolbar>
+
+  <div class="content">
+    <div class="form-card" *ngIf="!isLoadingData">
+      <div class="form-header">
+        <div class="form-icon">
+          <mat-icon>{{ isEditMode ? 'edit' : 'add_box' }}</mat-icon>
+        </div>
+        <div>
+          <h1>{{ isEditMode ? 'Termék módosítása' : 'Új termék hozzáadása' }}</h1>
+          <p>Töltse ki az alábbi mezőket</p>
+        </div>
+      </div>
+
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Termék neve</mat-label>
+            <input matInput formControlName="name" placeholder="pl. Samsung Galaxy S24">
+            <mat-icon matPrefix>label</mat-icon>
+            <mat-error>{{ getError('name') }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Leírás</mat-label>
+            <textarea matInput formControlName="description" rows="3"
+                      placeholder="Adjon részletes leírást a termékről..."></textarea>
+            <mat-icon matPrefix>description</mat-icon>
+            <mat-hint align="end">{{ productForm.get('description')?.value?.length || 0 }}/500</mat-hint>
+            <mat-error>{{ getError('description') }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row two-col">
+          <mat-form-field appearance="outline">
+            <mat-label>Ár (Ft)</mat-label>
+            <input matInput type="number" formControlName="price" placeholder="0" min="0">
+            <mat-icon matPrefix>payments</mat-icon>
+            <mat-hint>Forintban</mat-hint>
+            <mat-error>{{ getError('price') }}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Mennyiség (db)</mat-label>
+            <input matInput type="number" formControlName="quantity" placeholder="0" min="0">
+            <mat-icon matPrefix>inventory</mat-icon>
+            <mat-hint>Egész szám</mat-hint>
+            <mat-error>{{ getError('quantity') }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Kategória</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let cat of categories" [value]="cat">{{ cat }}</mat-option>
+            </mat-select>
+            <mat-icon matPrefix>folder</mat-icon>
+            <mat-error>{{ getError('category') }}</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/products" class="cancel-btn">
+            <mat-icon>close</mat-icon>
+            Mégse
+          </button>
+          <button mat-raised-button type="submit" class="submit-btn" [disabled]="isLoading">
+            <mat-spinner *ngIf="isLoading" diameter="18"></mat-spinner>
+            <mat-icon *ngIf="!isLoading">{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+            <span>{{ isLoading ? 'Mentés...' : (isEditMode ? 'Mentés' : 'Hozzáadás') }}</span>
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+    <div *ngIf="isLoadingData" class="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>

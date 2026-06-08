@@ -1,0 +1,71 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$dark-primary: mat.define-palette(mat.$red-palette, 400);
+$dark-accent: mat.define-palette(mat.$blue-palette, A200);
+$dark-warn: mat.define-palette(mat.$orange-palette);
+
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+    warn: $dark-warn,
+  ),
+  typography: mat.define-typography-config(),
+  density: 0,
+));
+
+@include mat.all-component-themes($dark-theme);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: #0d0d1a;
+  color: white;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #1e1e2e;
+  --mdc-snackbar-supporting-text-color: white;
+}
+
+.error-snackbar .mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #c62828;
+}
+
+.mat-mdc-select-panel {
+  background: #1e1e2e !important;
+
+  .mat-mdc-option {
+    color: white !important;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    &.mdc-list-item--selected {
+      background: rgba(233, 69, 96, 0.15) !important;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}

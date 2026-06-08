@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="logo-icon">
+        <mat-icon>inventory_2</mat-icon>
+      </div>
+      <h1>Nyilvántartó</h1>
+      <p class="subtitle">Új fiók létrehozása</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="auth-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Felhasználónév</mat-label>
+        <input matInput formControlName="name" placeholder="Válasszon felhasználónevet" autocomplete="username">
+        <mat-icon matPrefix>person</mat-icon>
+        <mat-error>{{ getNameError() }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Jelszó</mat-label>
+        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'"
+               placeholder="Legalább 6 karakter" autocomplete="new-password">
+        <mat-icon matPrefix>lock</mat-icon>
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error>{{ getPasswordError() }}</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit"
+              class="submit-btn" [disabled]="isLoading">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">Regisztráció</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Már van fiókja? <a routerLink="/login" class="link">Bejelentkezés</a></p>
+    </div>
+  </div>
+</div>
